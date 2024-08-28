@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Elegant Men's Jacket",
+    "rating": {
+      "count": 254,
+      "rate": 4.2
+    },
+    "images": {
+      "secondary": [
+        "https://example.com/fashion1.jpg",
+        "https://example.com/fashion2.jpg"
+      ],
+      "primary": "https://example.com/fashion1.jpg"
+    },
+    "sizes": {
+      "s": true,
+      "m": true,
+      "l": false,
+      "xl": true
+    },
+    "category": "clothing",
+    "price": 99.99,
+    "gender": "MEN",
+    "description": "An elegant jacket perfect for formal occasions."
+  }
+]
