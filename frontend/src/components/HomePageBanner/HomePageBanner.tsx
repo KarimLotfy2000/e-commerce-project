@@ -24,13 +24,6 @@ export default function HomePageBanner() {
             Discover the latest trends in fashion.
           </p>
         </div>
-        <Button
-          variant="primary"
-          asChild
-          className="bg-white text-gray-800 px-4 py-2 rounded-lg font-semibold"
-        >
-          <Link href="/products">Shop Now</Link>
-        </Button>
       </div>
     </div>
   );

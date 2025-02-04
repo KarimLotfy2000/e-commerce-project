@@ -12,11 +12,11 @@ export const ImagesBar: React.FC<ImagesBarProps> = ({ images }) => {
   const { scrollTo } = useCarousel();
 
   return (
-    <div className="flex flex-col align-center items-center space-y-2 mt-4">
+    <div className="flex flex-row xl:flex-col align-center items-center space-x-2 md:space-y-2 mt-4">
       {images.map((image, index) => (
         <button
           key={index}
-          className="w-16 h-16 overflow-hidden border border-gray-300 rounded-md"
+          className="md:w-[5vw] w-16 h-16  md:h-auto overflow-hidden border border-gray-300 rounded-md"
           onMouseEnter={() => scrollTo && scrollTo(index)}
         >
           <Image

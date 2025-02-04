@@ -20,12 +20,12 @@ type ImageSliderProps = {
 
 export const ImageSlider: React.FC<ImageSliderProps> = ({
   images,
-  className = "",
+  className = "w-full",
   setApi,
   withButtons,
 }) => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="">
       <Carousel
         opts={{
           align: "start",
@@ -40,9 +40,9 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
               <Image
                 src={image}
                 alt={`Slide ${index + 1}`}
-                width={330}
-                height={500}
-                className="object-cover w-full h-full rounded-lg"
+                width={700}
+                height={1000}
+                className="object-cover w-full h-full md:rounded-lg"
               />
             </CarouselItem>
           ))}

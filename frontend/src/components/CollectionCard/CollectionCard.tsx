@@ -26,7 +26,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
   buttonText,
 }) => {
   return (
-    <Card className="px-6">
+    <Card className="px-6 border border-gray-300 rounded-lg">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
