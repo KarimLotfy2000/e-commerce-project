@@ -21,6 +21,7 @@ FashionFusion is a modern full-stack e-commerce platform built with **Next.js (A
 ---
 
 ## 🛠️ Tech Stack
+
 ### **Frontend**
 - ⚛️ **Next.js (App Router)**
 - 🛠 **TypeScript**
@@ -28,4 +29,9 @@ FashionFusion is a modern full-stack e-commerce platform built with **Next.js (A
 - 🔄 **Redux Toolkit (Global State)**
 - 🚀 **Axios (API Calls)**
 
-
+### **Backend** 
+- Spring Boot (REST API)
+- Spring Security & JWT (Authentication)
+- JPA & Hibernate (ORM)
+- MySQL (Relational Database)
+- ModelMapper (DTO Mapping)
