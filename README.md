@@ -1,0 +1,29 @@
+# 🛍️ FashionFusion - E-Commerce Platform
+
+FashionFusion is a modern full-stack e-commerce platform built with **Next.js (App Router)** for the frontend and **Spring Boot** for the backend. It provides a seamless shopping experience with **user authentication, product filtering, a shopping cart, and order management**.
+
+This project is **integrated with the following repositoy as the backend** [e-commerce-spring-boot](https://github.com/KarimLotfy2000/e-commerce-spring-boot)
+
+---
+
+## 🚀 Features
+- 🔐 **User Authentication** (JWT-based login, registration)
+- 🏷️ **Product Browsing & Filtering** (Filter by gender, category, brand, price)
+- 🛒 **Shopping Cart** (Persistent cart state, add/remove items)
+- 📦 **Order Management** (Order history, checkout)
+- 🎨 **Modern UI** (TailwindCSS & ShadCN for a sleek design)
+- 🔥 **State Management** (Redux Toolkit for global state)
+- ⚡ **Optimized API Calls** (Static responses cached in Redux for optimization)
+- 💳 **(Upcoming) Stripe Payment Integration**
+- 🛠 **(Upcoming) Admin Dashboard for Product Management**
+
+---
+
+## 🛠️ Tech Stack
+### **Frontend**
+- ⚛️ **Next.js (App Router)**
+- 🎨 **TailwindCSS + ShadCN**
+- 🔄 **Redux Toolkit (Global State)**
+- 🚀 **Axios (API Calls)**
+
+
