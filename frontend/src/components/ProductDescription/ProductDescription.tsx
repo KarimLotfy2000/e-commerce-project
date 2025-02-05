@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -8,18 +10,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Info, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import classNames from "classnames";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { useDispatch } from "react-redux";
 
+import { addToCart } from "@/store/slices/cartSlice";
 import { ProductInfo } from "@/config/types/product";
+import { AppDispatch } from "@/store/store";
+import useAuth from "@/hooks/use-auth";
+import { setError } from "@/store/slices/errorSlice";
+import AuthModal from "../Auth/AuthModal/AuthModal";
 
 export type ProductDescriptionProps = {
   product: ProductInfo;
@@ -32,29 +33,53 @@ export const ProductDescription: React.FC<ProductDescriptionProps> = ({
   rating = { count: 127, rate: 4.5 },
   discount = 0,
 }) => {
-  const {
-    name,
-    brand,
-    price,
-    gender,
-    description,
-    material,
-    categoryName,
-    sizeVariants,
-  } = product;
+  const { name, price, description, sizeVariants, brand, color } = product;
+  const availableSizes = sizeVariants.filter(({ stock }) => stock > 0);
+  const dispatch = useDispatch<AppDispatch>();
+  const [selectedPrice, setSelectedPrice] = useState<number | null>(null);
+  const [selectedSizeVariantId, setSelectedSizeVariantId] = useState<
+    number | null
+  >(null);
 
-  const discountedPrice = price * (1 - discount / 100); // Normally, calculations should be done by the backend
-  const originalPrice = price;
+  const { isAuthenticated } = useAuth();
+  const [authModal, setAuthModal] = useState<{
+    authFormType: "login" | "register";
+    isOpen: boolean;
+  }>({
+    authFormType: "login",
+    isOpen: false,
+  });
 
-  const availableSizes = sizeVariants
-    .filter(({ stock }) => stock > 0)
-    .map(({ size }) => size);
+  const shouldApplyDiscount =
+    (selectedPrice === null || selectedPrice === price) && discount > 0;
 
-  const categoryMap: { [key: number]: string } = {
-    1: "Clothing",
-    2: "Shoes",
-    3: "Accessories",
-    4: "Sports",
+  const displayedPrice = selectedPrice !== null ? selectedPrice : price;
+  const discountedPrice = shouldApplyDiscount
+    ? price * (1 - discount / 100)
+    : displayedPrice;
+
+  const handleSizeChange = (size: string) => {
+    const selectedVariant = availableSizes.find((s) => s.size === size);
+    if (selectedVariant) {
+      setSelectedPrice(selectedVariant.price);
+      setSelectedSizeVariantId(selectedVariant.id);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      dispatch(
+        setError({
+          message: "Please login first to be able to add an item to the cart!",
+          type: "error",
+        })
+      );
+      setAuthModal({ authFormType: "login", isOpen: true });
+      return;
+    }
+    if (selectedSizeVariantId) {
+      dispatch(addToCart(selectedSizeVariantId));
+    }
   };
 
   const renderStars = (rate: number) => {
@@ -87,108 +112,98 @@ export const ProductDescription: React.FC<ProductDescriptionProps> = ({
   };
 
   return (
-    <div className="w-full p-6 bg-white">
-      {" "}
-      <p className="text-2xl text-gray-600">{brand}</p>
-      <h1 className="text-4xl mt-2 font-bold">{name}</h1>
-      <div className="mt-2">
-        <span className="font-bold">Price:</span>
-        <div className="flex items-baseline space-x-2">
-          <span
-            className={classNames("text-xl font-bold", {
-              "text-red-600": discount > 0,
-              "text-gray-600": discount === 0,
-            })}
-          >
-            {discountedPrice.toFixed(2)} €
+    <>
+      <div className="w-full p-6 bg-white">
+        <h1 className="text-2xl">{brand}</h1>
+        <h1 className="text-4xl mt-2 font-bold">{name}</h1>
+        <p className="text-lg text-gray-600 mt-2">{color}</p>
+        <p className="text-sm flex items-center gap-x-2 text-gray-500 mt-2">
+          {rating.rate.toFixed(1)} {renderStars(rating.rate)}
+          <span className="text-sm text-gray-500">
+            ({rating.count} reviews)
           </span>
-          {discount > 0 && (
-            <span className="text-xl text-gray-500 line-through">
-              {originalPrice.toFixed(2)} €
+        </p>
+
+        <div className="mt-2">
+          <div className="flex items-baseline space-x-2">
+            <span
+              className={classNames("text-xl font-bold", {
+                "text-red-600": shouldApplyDiscount,
+                "text-gray-600": !shouldApplyDiscount,
+              })}
+            >
+              {discountedPrice.toFixed(2)} €
+            </span>
+            {shouldApplyDiscount && (
+              <span className="text-xl text-gray-500 line-through">
+                {price.toFixed(2)} €
+              </span>
+            )}
+          </div>
+          <p className="text-sm text-gray-600">VAT included</p>
+        </div>
+
+        <div className="flex flex-col mt-2 space-y-2">
+          {description && (
+            <span className="text-xl text-gray-600 inline">
+              {description || "No description available."}
             </span>
           )}
         </div>
-        <p className="text-sm text-gray-600">VAT included</p>
-        {discount > 0 && (
-          <p className="text-sm text-gray-500">
-            Originally: {originalPrice.toFixed(2)} € up to -{discount}%
-          </p>
-        )}
-      </div>
-      <p className="text-xl text-gray-600 mt-2">
-        <span className="font-bold">Category:</span>{" "}
-        {categoryName[0].toUpperCase() + categoryName.slice(1)}
-      </p>
-      <p className="text-xl text-gray-600 mt-2">
-        <span className="font-bold">Material:</span> {material}
-      </p>
-      <p className="text-xl text-gray-600 my-2">
-        <span className="font-bold">Gender:</span>{" "}
-        {gender[0] + gender.slice(1).toLowerCase()}
-      </p>
-      {renderStars(rating.rate)}
-      <div className="flex flex-col mt-2 space-y-2">
-        <span className="text-sm text-gray-500">({rating.count} reviews)</span>
-        <span className="text-2xl text-gray-600 inline">
-          {description || "No description available."}
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                size="icon"
-                className="text-xl font-semibold ml-2 align-middle"
-              >
-                <Info />
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogDescription>
-                  <span className="text-xl text-gray-500">
-                    {description || "No additional information available."}
-                  </span>
-                </DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </span>
-      </div>
-      <div className="mt-4">
-        <Select>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select a size" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Sizes</SelectLabel>
-              {availableSizes.length > 0 ? (
-                availableSizes.map((size) => (
-                  <SelectItem key={size} value={size}>
-                    {size}
+
+        <div className="mt-4">
+          <Select onValueChange={handleSizeChange}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a size" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Sizes</SelectLabel>
+                {availableSizes.length > 0 ? (
+                  availableSizes.map((size) => (
+                    <SelectItem key={size.id} value={size.size}>
+                      {size.size}
+                      {size.price !== price && (
+                        <span className="text-sm text-gray-500 ml-2">
+                          ({size.price} €)
+                        </span>
+                      )}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem value="No Sizes Available" disabled>
+                    No Sizes Available
                   </SelectItem>
-                ))
-              ) : (
-                <SelectItem value="No Sizes Available" disabled>
-                  No Sizes Available
-                </SelectItem>
-              )}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+                )}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* ✅ Buttons */}
+        <div className="flex gap-x-3">
+          <Button
+            disabled={selectedSizeVariantId === null}
+            variant="accent"
+            className="w-4/5 mt-4 text-xl font-semibold py-2 rounded-md"
+            onClick={handleAddToCart}
+          >
+            Add to cart
+          </Button>
+          <Button
+            variant="primary"
+            className="w-1/5 mt-4 text-lg font-semibold py-2 rounded-md"
+          >
+            LIKE
+          </Button>
+        </div>
       </div>
-      <div className="flex gap-x-1">
-        <Button
-          variant="accent"
-          className="w-4/5 mt-4 text-xl font-semibold py-2 rounded-md"
-        >
-          Add to cart
-        </Button>
-        <Button
-          variant="secondary"
-          className="w-1/5 mt-4 text-xl font-semibold py-2 rounded-md"
-        >
-          LIKE
-        </Button>
-      </div>
-    </div>
+      {authModal.isOpen && (
+        <AuthModal
+          initialForm={authModal.authFormType}
+          closeModal={() => setAuthModal({ ...authModal, isOpen: false })}
+        />
+      )}
+    </>
   );
 };

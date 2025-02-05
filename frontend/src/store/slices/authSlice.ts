@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import api from "@/lib/api/apiClient";
 import { setError } from "@/store/slices/errorSlice";
 import { User } from "@/config/types/user";
@@ -10,6 +10,7 @@ interface AuthState {
   loadingLogin: boolean;
   loadingRegister: boolean;
   error: string | null;
+  isLoginModalOpen: boolean;
 }
 
 const getUserFromLocalStorage = () => {
@@ -88,6 +89,8 @@ export const logoutUser = createAsyncThunk(
   async (_, { dispatch }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("totalItems");
+
     dispatch(
       setError({ message: "Logged out successfully!", type: "success" })
     );
@@ -102,6 +105,7 @@ const initialState: AuthState = {
   loadingLogin: false,
   loadingRegister: false,
   error: null,
+  isLoginModalOpen: false,
 };
 
 const authSlice = createSlice({
@@ -110,6 +114,9 @@ const authSlice = createSlice({
   reducers: {
     resetAuthError: (state) => {
       state.error = null;
+    },
+    setLoginModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.isLoginModalOpen = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -150,5 +157,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { resetAuthError } = authSlice.actions;
+export const { resetAuthError, setLoginModalOpen } = authSlice.actions;
 export default authSlice.reducer;

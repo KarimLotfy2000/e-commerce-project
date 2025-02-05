@@ -4,48 +4,52 @@ import {
   loginUser,
   registerUser,
   logoutUser,
-  resetAuthError,
+  setLoginModalOpen,
 } from "@/store/slices/authSlice";
-
 const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, token, isAuthenticated, loadingLogin, loadingRegister, error } =
-    useSelector((state: RootState) => state.auth);
-
-  const login = async (email: string, password: string) => {
-    dispatch(resetAuthError());
-    await dispatch(loginUser({ email, password }));
-  };
-
-  const register = async (name: string, email: string, password: string) => {
-    dispatch(resetAuthError());
-    try {
-      await dispatch(registerUser({ name, email, password })).unwrap();
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const logout = () => {
-    dispatch(logoutUser());
-  };
-
-  const resetError = () => {
-    dispatch(resetAuthError());
-  };
-
-  return {
+  const {
     user,
     token,
     isAuthenticated,
     loadingLogin,
     loadingRegister,
     error,
+    isLoginModalOpen,
+  } = useSelector((state: RootState) => state.auth);
+
+  const login = (email: string, password: string) => {
+    dispatch(loginUser({ email, password }));
+  };
+
+  const register = (name: string, email: string, password: string) => {
+    dispatch(registerUser({ name, email, password }));
+  };
+
+  const logout = () => {
+    dispatch(logoutUser());
+  };
+  const showLoginModal = () => {
+    dispatch(setLoginModalOpen(true));
+  };
+
+  const hideLoginModal = () => {
+    dispatch(setLoginModalOpen(false));
+  };
+
+  return {
+    user,
+    token,
+    isAuthenticated,
+    loadingRegister,
+    loadingLogin,
+    error,
     login,
     register,
     logout,
-    resetError,
+    isLoginModalOpen,
+    showLoginModal,
+    hideLoginModal,
   };
 };
 

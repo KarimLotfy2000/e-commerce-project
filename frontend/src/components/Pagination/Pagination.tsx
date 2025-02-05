@@ -34,7 +34,7 @@ export default function Pagination({
         {Array.from({ length: totalPages }, (_, index) => (
           <Button
             key={index}
-            variant={index + 1 === currentPage ? "primary" : "secondary"}
+            variant={index + 1 === currentPage ? "secondary" : "primary"}
             className="mx-1"
             onClick={() => goToPage(index + 1)}
           >

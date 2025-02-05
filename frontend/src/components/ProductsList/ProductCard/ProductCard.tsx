@@ -10,7 +10,6 @@ import {
   CardDescription,
   CardFooter,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Product } from "@/config/types/product";
 
 const ProductCard: React.FC<Product> = ({

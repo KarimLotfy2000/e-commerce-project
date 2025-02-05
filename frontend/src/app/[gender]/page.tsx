@@ -1,7 +1,5 @@
 import { notFound } from "next/navigation";
 import CollectionCard from "@/components/CollectionCard/CollectionCard";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import Banner from "@/components/ui/banner";
 import { collectionData } from "@/consts";
 
@@ -40,12 +38,6 @@ export default function GenderPage({ params }: { params: { gender: string } }) {
             />
           ))}
         </section>
-
-        <div className="text-center my-16">
-          <Link href={genderData.buttonLink}>
-            <Button variant="secondary">{genderData.buttonText}</Button>
-          </Link>
-        </div>
       </div>
     </div>
   );

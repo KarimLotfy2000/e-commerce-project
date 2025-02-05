@@ -1,10 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { FaShoppingCart } from "react-icons/fa";
 import useAuth from "@/hooks/use-auth";
-import AuthModal from "@/components/Auth/AuthModal/AuthModal";
 import { useState } from "react";
 import {
   DropdownMenu,
@@ -13,14 +10,14 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import CartButton from "@/components/Cart/CartButton";
+import AuthModal from "@/components/Auth/AuthModal/AuthModal";
+import { FaUser } from "react-icons/fa";
 
 const OPTIONS = ["MEN", "WOMEN"];
 
 const Navbar = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [authFormType, setAuthFormType] = useState<"login" | "register">(
-    "login"
-  );
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const initials = user?.name
     ? user.name
@@ -30,82 +27,105 @@ const Navbar = () => {
         .toUpperCase()
     : "";
 
+  const handleLogout = () => {
+    logout();
+    setIsDropdownOpen(false);
+    window.location.href = "/"; // not using router.push to refresh the page and remove states
+  };
+
+  const [authModal, setAuthModal] = useState<{
+    authFormType: "login" | "register";
+    isOpen: boolean;
+  }>({
+    authFormType: "login",
+    isOpen: false,
+  });
+
   return (
-    <nav className="bg-white mb-16 p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="flex items-center space-x-6">
-          {OPTIONS.map((option) => (
-            <Link
-              key={option}
-              href={`/${option.toLowerCase()}`}
-              className="text-gray-500 hover:text-gray-900"
+    <>
+      <nav className="bg-white mb-16 p-4 shadow-md">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-6">
+            {OPTIONS.map((option) => (
+              <Link
+                key={option}
+                href={`/${option.toLowerCase()}`}
+                className="text-gray-500 hover:text-gray-900"
+              >
+                {option}
+              </Link>
+            ))}
+          </div>
+
+          <Link href="/" className="text-2xl font-bold">
+            FashionFusion
+          </Link>
+
+          <div className="flex items-center space-x-6">
+            <CartButton />
+
+            <DropdownMenu
+              open={isDropdownOpen}
+              onOpenChange={setIsDropdownOpen}
             >
-              {option}
-            </Link>
-          ))}
-        </div>
-
-        <Link href="/" className="text-2xl font-bold">
-          FashionFusion
-        </Link>
-
-        <div className="flex items-center space-x-6">
-          {isAuthenticated ? (
-            <>
-              <Button variant="secondary" asChild>
-                <Link href="/cart">
-                  <FaShoppingCart className="text-lg" />
-                  <span className="ml-2">Cart</span>
-                </Link>
-              </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="focus:outline-none">
+              <DropdownMenuTrigger className="focus:outline-none">
+                {isAuthenticated ? (
                   <Avatar>
                     <AvatarFallback>{initials}</AvatarFallback>
                   </Avatar>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-36 mt-2 bg-white border shadow-md rounded-md">
-                  <DropdownMenuItem asChild>
-                    <Link href="/profile">Profile</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={logout} className="cursor-pointer">
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </>
-          ) : (
-            <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setIsModalOpen(true);
-                  setAuthFormType("login");
-                }}
-              >
-                Login
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  setIsModalOpen(true);
-                  setAuthFormType("register");
-                }}
-              >
-                Register
-              </Button>
-            </div>
-          )}
+                ) : (
+                  <FaUser className="text-lg" />
+                )}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-36 mt-2 bg-white border shadow-md rounded-md">
+                {isAuthenticated ? (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile">Profile</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="cursor-pointer"
+                    >
+                      Logout
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setAuthModal({ authFormType: "login", isOpen: true });
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      Login
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setAuthModal({
+                          authFormType: "register",
+                          isOpen: true,
+                        });
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      Register
+                    </DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
-      </div>
+      </nav>
 
-      {isModalOpen && (
+      {authModal.isOpen && (
         <AuthModal
-          closeModal={() => setIsModalOpen(false)}
-          initialForm={authFormType}
+          initialForm={authModal.authFormType}
+          closeModal={() => setAuthModal({ ...authModal, isOpen: false })}
         />
       )}
-    </nav>
+    </>
   );
 };
 

@@ -112,7 +112,7 @@ export function RecommendedItemsSlider() {
         dragFree: true,
         loop: true,
       }}
-      className="  mx-10"
+      className="mx-20"
     >
       <CarouselContent>
         {recommendedItems.map((item, index) => (

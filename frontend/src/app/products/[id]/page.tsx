@@ -19,28 +19,18 @@ const ProductPage = async ({ params }: { params: { id: string } }) => {
     "https://picsum.photos/seed/6/300/300",
   ];
 
-  const ACCORDION_DATA = [
-    {
-      trigger: "MATERIAL",
-      content: "lorem impsulum conteger amarco",
-    },
-    {
-      trigger: "DETAILS",
-      content: "lorem impsulum conteger amarco",
-    },
-    {
-      trigger: "ADIDAS",
-      content: "lorem impsulum conteger amarco",
-    },
-  ];
-
   return (
     <div className="flex flex-col">
-      <div className="flex md:flex-row flex-col items-center  md:items-start">
+      <div className="flex md:flex-row flex-col 2xl:gap-x-40 lg:items-center gap-x-5 mx-auto md:items-start">
         <SliderWithImagesBar images={PLACEHOLDER_IMAGES} />
-        <div className="flex flex-col xl:ml-20 md:ml-32 md:w-1/3 gap-y-2">
+        <div className="flex flex-col xl:mr-32 xl:ml-32 md:w-1/3 xl:w-1/4 gap-y-2">
           <ProductDescription discount={30} product={product} />
-          <ProductAccordion accordionData={ACCORDION_DATA} />
+          <ProductAccordion
+            brand={product.brand}
+            category={product.categoryName}
+            material={product.material}
+            gender={product.gender}
+          />
         </div>
       </div>
       <div className="p-10 flex flex-col">
