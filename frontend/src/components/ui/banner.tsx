@@ -19,17 +19,17 @@ const Banner: React.FC<BannerProps> = ({
   bannerObjectPosition,
 }) => {
   return (
-    <div className="relative w-full h-96">
+    <div className="relative w-full  h-96">
       <Image
         src={imageSrc}
         alt={text}
         layout="fill"
         objectFit="cover"
-        className="z-0"
+        className="z-0 min-h-[450px]"
         style={{ objectPosition: bannerObjectPosition }}
       />
 
-      <div className="absolute inset-0 flex flex-col justify-between p-8">
+      <div className="absolute -bottom-9 inset-0 flex flex-col justify-between p-8">
         <div></div>
         <div className="flex justify-between items-end">
           <h2 className="text-white text-2xl md:text-4xl font-bold">{text}</h2>

@@ -1,4 +1,3 @@
-// ImageSlider.tsx
 import * as React from "react";
 import classNames from "classnames";
 import {
@@ -9,7 +8,7 @@ import {
   CarouselPrevious,
   CarouselApi,
 } from "@/components/ui/carousel";
-import Image from "next/image";
+import ImageComponent from "../ui/image";
 
 type ImageSliderProps = {
   withButtons?: boolean;
@@ -35,9 +34,12 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         setApi={setApi}
       >
         <CarouselContent className="flex">
-          {images.map((image, index) => (
+          {(images && images.length > 0
+            ? images
+            : ["/images/placeholder.svg"]
+          ).map((image, index) => (
             <CarouselItem key={index} className={classNames(className)}>
-              <Image
+              <ImageComponent
                 src={image}
                 alt={`Slide ${index + 1}`}
                 width={700}

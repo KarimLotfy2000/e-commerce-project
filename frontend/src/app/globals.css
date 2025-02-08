@@ -1,32 +1,34 @@
 :root {
-  --border: 210, 10%, 30%;
-  --radius: 8px;
+  /* ✅ Primary (Whitish Light Gray) */
+  --primary: 0, 0%, 90%; /* Very Light Gray */
+  --primary-hover: 0, 0%, 75%; /* Darker Light Gray */
+  --primary-foreground: 0, 0%, 15%; /* Darker Text */
+  --primary-foreground-hover: 0, 0%, 10%; /* Even Darker on Hover */
 
-  /* ✅ Primary (Light Grey) */
-  --primary: 0, 0%, 90%; /* Very Light Grey */
-  --primary-hover: 0, 0%, 80%; /* Slightly Darker Grey */
-  --primary-foreground: 0, 0%, 10%; /* Dark Text for Contrast */
+  /* ✅ Secondary (Balanced Gray) */
+  --secondary: 0, 0%, 30%; /* Medium Gray */
+  --secondary-hover: 0, 0%, 20%; /* Slightly Darker Gray */
+  --secondary-foreground: 0, 0%, 100%; /* White Text */
+  --secondary-foreground-hover: 0, 0%, 90%; /* Slightly Off-White */
 
-  /* ✅ Secondary (Balanced Grey) */
-  --secondary: 0, 0%, 60%; /* Medium Grey */
-  --secondary-hover: 0, 0%, 75%; /* Soft Silver Tone */
-  --secondary-foreground: 0, 0%, 10%; /* Dark Text */
+  /* ✅ Accent (Dark Grayish Blue) */
+  --accent: 220, 15%, 25%; /* Strong Grayish Blue */
+  --accent-hover: 0%, 0%, 0%; /* Slightly Brighter */
+  --accent-foreground: 0, 0%, 100%; /* White */
+  --accent-foreground-hover: 0, 0%, 90%; /* Slightly Softer White */
 
-  /* ✅ Accent (Dark Greyish Blue) */
-  --accent: 220, 10%, 20%;
-  --accent-hover: 220, 10%, 30%;
-  --accent-foreground: 0, 0%, 100%;
-
-  /* ✅ Destructive (Red for Errors) */
+  /* ✅ Destructive (Error - Red) */
   --destructive: 0, 70%, 50%;
   --destructive-foreground: 0, 0%, 100%;
 
-  /* ✅ Background (Restored to White) */
+  /* ✅ Background (White) */
   --background: 0, 0%, 100%;
-  --foreground: 224, 71.4%, 4.1%;
-  --border: 220, 13%, 91%;
-  --input: 220, 13%, 91%;
-  --ring: 224, 71.4%, 4.1%;
+  --foreground: 220, 10%, 15%; /* Darker Text for Readability */
+
+  /* ✅ Borders & Inputs */
+  --border: 220, 10%, 70%; /* Soft Gray Border */
+  --input: 220, 10%, 75%; /* Slightly Lighter for Better Contrast */
+  --ring: 220, 10%, 40%; /* Subtle Focus Ring */
 }
 
 @tailwind base;
@@ -60,16 +62,8 @@
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary: 0, 0%, 40%; /* Keep grey as primary */
-    --primary-foreground: 0, 0%, 95%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
     --muted: 220 14.3% 95.9%;
     --muted-foreground: 220 8.9% 46.1%;
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
     --ring: 224 71.4% 4.1%;
@@ -79,31 +73,5 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-  }
-  .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 0, 0%, 40%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 216 12.2% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
   }
 }

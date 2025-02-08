@@ -41,14 +41,7 @@ export const ProductDescription: React.FC<ProductDescriptionProps> = ({
     number | null
   >(null);
 
-  const { isAuthenticated } = useAuth();
-  const [authModal, setAuthModal] = useState<{
-    authFormType: "login" | "register";
-    isOpen: boolean;
-  }>({
-    authFormType: "login",
-    isOpen: false,
-  });
+  const { isAuthenticated, showLoginModal } = useAuth();
 
   const shouldApplyDiscount =
     (selectedPrice === null || selectedPrice === price) && discount > 0;
@@ -74,7 +67,7 @@ export const ProductDescription: React.FC<ProductDescriptionProps> = ({
           type: "error",
         })
       );
-      setAuthModal({ authFormType: "login", isOpen: true });
+      showLoginModal();
       return;
     }
     if (selectedSizeVariantId) {
@@ -112,98 +105,90 @@ export const ProductDescription: React.FC<ProductDescriptionProps> = ({
   };
 
   return (
-    <>
-      <div className="w-full p-6 bg-white">
-        <h1 className="text-2xl">{brand}</h1>
-        <h1 className="text-4xl mt-2 font-bold">{name}</h1>
-        <p className="text-lg text-gray-600 mt-2">{color}</p>
-        <p className="text-sm flex items-center gap-x-2 text-gray-500 mt-2">
-          {rating.rate.toFixed(1)} {renderStars(rating.rate)}
-          <span className="text-sm text-gray-500">
-            ({rating.count} reviews)
+    <div className="w-full p-6 bg-white">
+      <h1 className="text-2xl">{brand}</h1>
+      <h1 className="text-4xl mt-2 font-bold">{name}</h1>
+      <p className="text-lg text-gray-600 mt-2">
+        <span className="font-bold">Color:</span> {color}
+      </p>
+      <p className="text-sm flex items-center gap-x-2 text-gray-500 mt-2">
+        {rating.rate.toFixed(1)} {renderStars(rating.rate)}
+        <span className="text-sm text-gray-500">({rating.count} reviews)</span>
+      </p>
+
+      <div className="mt-2">
+        <div className="flex items-baseline space-x-2">
+          <span
+            className={classNames("text-xl font-bold", {
+              "text-red-600": shouldApplyDiscount,
+              "text-gray-600": !shouldApplyDiscount,
+            })}
+          >
+            {discountedPrice.toFixed(2)} €
           </span>
-        </p>
-
-        <div className="mt-2">
-          <div className="flex items-baseline space-x-2">
-            <span
-              className={classNames("text-xl font-bold", {
-                "text-red-600": shouldApplyDiscount,
-                "text-gray-600": !shouldApplyDiscount,
-              })}
-            >
-              {discountedPrice.toFixed(2)} €
-            </span>
-            {shouldApplyDiscount && (
-              <span className="text-xl text-gray-500 line-through">
-                {price.toFixed(2)} €
-              </span>
-            )}
-          </div>
-          <p className="text-sm text-gray-600">VAT included</p>
-        </div>
-
-        <div className="flex flex-col mt-2 space-y-2">
-          {description && (
-            <span className="text-xl text-gray-600 inline">
-              {description || "No description available."}
+          {shouldApplyDiscount && (
+            <span className="text-xl text-gray-500 line-through">
+              {price.toFixed(2)} €
             </span>
           )}
         </div>
-
-        <div className="mt-4">
-          <Select onValueChange={handleSizeChange}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a size" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Sizes</SelectLabel>
-                {availableSizes.length > 0 ? (
-                  availableSizes.map((size) => (
-                    <SelectItem key={size.id} value={size.size}>
-                      {size.size}
-                      {size.price !== price && (
-                        <span className="text-sm text-gray-500 ml-2">
-                          ({size.price} €)
-                        </span>
-                      )}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <SelectItem value="No Sizes Available" disabled>
-                    No Sizes Available
-                  </SelectItem>
-                )}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* ✅ Buttons */}
-        <div className="flex gap-x-3">
-          <Button
-            disabled={selectedSizeVariantId === null}
-            variant="accent"
-            className="w-4/5 mt-4 text-xl font-semibold py-2 rounded-md"
-            onClick={handleAddToCart}
-          >
-            Add to cart
-          </Button>
-          <Button
-            variant="primary"
-            className="w-1/5 mt-4 text-lg font-semibold py-2 rounded-md"
-          >
-            LIKE
-          </Button>
-        </div>
+        <p className="text-sm text-gray-600">VAT included</p>
       </div>
-      {authModal.isOpen && (
-        <AuthModal
-          initialForm={authModal.authFormType}
-          closeModal={() => setAuthModal({ ...authModal, isOpen: false })}
-        />
-      )}
-    </>
+
+      <div className="flex flex-col mt-2 space-y-2">
+        {description && (
+          <span className="text-xl text-gray-600 inline">
+            {description || "No description available."}
+          </span>
+        )}
+      </div>
+
+      <div className="mt-4">
+        <Select onValueChange={handleSizeChange}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select a size" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Sizes</SelectLabel>
+              {availableSizes.length > 0 ? (
+                availableSizes.map((size) => (
+                  <SelectItem key={size.id} value={size.size}>
+                    {size.size}
+                    {size.price !== price && (
+                      <span className="text-sm text-gray-500 ml-2">
+                        ({size.price} €)
+                      </span>
+                    )}
+                  </SelectItem>
+                ))
+              ) : (
+                <SelectItem value="No Sizes Available" disabled>
+                  No Sizes Available
+                </SelectItem>
+              )}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* ✅ Buttons */}
+      <div className="flex gap-x-3">
+        <Button
+          disabled={selectedSizeVariantId === null}
+          variant="accent"
+          className="w-full mt-4 text-xl font-semibold py-2 rounded-md"
+          onClick={handleAddToCart}
+        >
+          Add to cart
+        </Button>
+        {/* <Button
+          variant="primary"
+          className="w-1/5 mt-4 text-lg font-semibold py-2 rounded-md"
+        >
+          LIKE
+        </Button> */}
+      </div>
+    </div>
   );
 };

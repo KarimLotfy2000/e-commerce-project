@@ -29,7 +29,7 @@ export const SliderWithImagesBar: React.FC<SliderWithImagesBarProps> = ({
         scrollTo,
       }}
     >
-      <div className="flex md:ml-10 xl:flex-row flex-col xl:w-2/3 md:w-1/2 gap-x-5 2xl:size-1/2 items-center mb-10 justify-center">
+      <div className="flex md:ml-10  xl:flex-row flex-col xl:w-2/3 md:w-1/2 gap-x-5  2xl:size-1/3 items-center mb-10 justify-center">
         <ImageSlider
           withButtons={false}
           images={images}
