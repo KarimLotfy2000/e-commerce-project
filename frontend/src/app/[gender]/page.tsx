@@ -21,7 +21,7 @@ export default function GenderPage({ params }: { params: { gender: string } }) {
         bannerObjectPosition="top"
       />
       <div className="mx-auto">
-        <section className="py-12 text-center">
+        <section className="py-12 mt-14 text-center">
           <h2 className="text-4xl font-bold">{genderData.exploreTitle}</h2>
           <p className="text-lg text-gray-600 mt-4">{genderData.exploreText}</p>
         </section>

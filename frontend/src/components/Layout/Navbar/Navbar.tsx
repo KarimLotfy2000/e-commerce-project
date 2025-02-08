@@ -13,12 +13,15 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import CartButton from "@/components/Cart/CartButton";
 import AuthModal from "@/components/Auth/AuthModal/AuthModal";
 import { FaUser } from "react-icons/fa";
+import { usePathname } from "next/navigation";
 
 const OPTIONS = ["MEN", "WOMEN"];
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth();
+  const pathName = usePathname();
+  const { user, isAuthenticated, logout, hideLoginModal, isLoginModalOpen } =
+    useAuth();
   const initials = user?.name
     ? user.name
         .split(" ")
@@ -42,90 +45,99 @@ const Navbar = () => {
   });
 
   return (
-    <>
-      <nav className="bg-white mb-16 p-4 shadow-md">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-6">
-            {OPTIONS.map((option) => (
-              <Link
-                key={option}
-                href={`/${option.toLowerCase()}`}
-                className="text-gray-500 hover:text-gray-900"
-              >
-                {option}
-              </Link>
-            ))}
-          </div>
-
+    <nav className="bg-white mb-16 p-4 shadow-md">
+      <div className="container mx-auto flex justify-between items-center">
+        {pathName.startsWith("/checkout") ? (
           <Link href="/" className="text-2xl font-bold">
             FashionFusion
           </Link>
+        ) : (
+          <>
+            <div className="flex items-center space-x-6">
+              {OPTIONS.map((option) => (
+                <Link
+                  key={option}
+                  href={`/${option.toLowerCase()}`}
+                  className="text-gray-500 hover:text-gray-900"
+                >
+                  {option}
+                </Link>
+              ))}
+            </div>
 
-          <div className="flex items-center space-x-6">
-            <CartButton />
+            <Link href="/" className="text-2xl font-bold">
+              FashionFusion
+            </Link>
 
-            <DropdownMenu
-              open={isDropdownOpen}
-              onOpenChange={setIsDropdownOpen}
-            >
-              <DropdownMenuTrigger className="focus:outline-none">
-                {isAuthenticated ? (
-                  <Avatar>
-                    <AvatarFallback>{initials}</AvatarFallback>
-                  </Avatar>
-                ) : (
-                  <FaUser className="text-lg" />
-                )}
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-36 mt-2 bg-white border shadow-md rounded-md">
-                {isAuthenticated ? (
-                  <>
-                    <DropdownMenuItem asChild>
-                      <Link href="/profile">Profile</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={handleLogout}
-                      className="cursor-pointer"
-                    >
-                      Logout
-                    </DropdownMenuItem>
-                  </>
-                ) : (
-                  <>
-                    <DropdownMenuItem
-                      onClick={() => {
-                        setAuthModal({ authFormType: "login", isOpen: true });
-                        setIsDropdownOpen(false);
-                      }}
-                    >
-                      Login
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => {
-                        setAuthModal({
-                          authFormType: "register",
-                          isOpen: true,
-                        });
-                        setIsDropdownOpen(false);
-                      }}
-                    >
-                      Register
-                    </DropdownMenuItem>
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
-      </nav>
+            <div className="flex items-center space-x-6">
+              <CartButton />
 
-      {authModal.isOpen && (
+              <DropdownMenu
+                open={isDropdownOpen}
+                onOpenChange={setIsDropdownOpen}
+              >
+                <DropdownMenuTrigger className="focus:outline-none">
+                  {isAuthenticated ? (
+                    <Avatar>
+                      <AvatarFallback>{initials}</AvatarFallback>
+                    </Avatar>
+                  ) : (
+                    <FaUser className="text-lg" />
+                  )}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-36 mt-2 bg-white border shadow-md rounded-md">
+                  {isAuthenticated ? (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link href="/my-orders">Orders</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={handleLogout}
+                        className="cursor-pointer"
+                      >
+                        Logout
+                      </DropdownMenuItem>
+                    </>
+                  ) : (
+                    <>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setAuthModal({ authFormType: "login", isOpen: true });
+                          setIsDropdownOpen(false);
+                        }}
+                      >
+                        Login
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setAuthModal({
+                            authFormType: "register",
+                            isOpen: true,
+                          });
+                          setIsDropdownOpen(false);
+                        }}
+                      >
+                        Register
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </>
+        )}
+      </div>
+
+      {(authModal.isOpen || isLoginModalOpen) && (
         <AuthModal
-          initialForm={authModal.authFormType}
-          closeModal={() => setAuthModal({ ...authModal, isOpen: false })}
+          initialForm={isLoginModalOpen ? "login" : authModal.authFormType}
+          closeModal={() => {
+            setAuthModal({ ...authModal, isOpen: false });
+            hideLoginModal();
+          }}
         />
       )}
-    </>
+    </nav>
   );
 };
 

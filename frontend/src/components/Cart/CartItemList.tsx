@@ -47,7 +47,11 @@ const CartItemList = () => {
             <p className="text-lg font-semibold">
               Total: {totalPrice.toFixed(2)} €
             </p>
-            <Button variant="accent" size="lg">
+            <Button
+              variant="accent"
+              size="lg"
+              onClick={() => router.push("/checkout/address")}
+            >
               Proceed to Checkout
             </Button>
           </div>
@@ -55,7 +59,6 @@ const CartItemList = () => {
       ) : (
         <div className="text-center text-gray-500 flex flex-col items-center gap-4 mt-10">
           <p className="text-lg">Your cart is empty.</p>
-
           {!isAuthenticated && (
             <div className="flex flex-col gap-3">
               <Button
@@ -66,16 +69,16 @@ const CartItemList = () => {
               >
                 Login to Start Shopping
               </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-60"
-                onClick={() => router.back()}
-              >
-                Go Back
-              </Button>
             </div>
           )}
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-60"
+            onClick={() => router.back()}
+          >
+            Go Back
+          </Button>
         </div>
       )}
     </div>

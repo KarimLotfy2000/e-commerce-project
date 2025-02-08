@@ -29,6 +29,7 @@ const useAuth = () => {
   const logout = () => {
     dispatch(logoutUser());
   };
+
   const showLoginModal = () => {
     dispatch(setLoginModalOpen(true));
   };

@@ -3,6 +3,8 @@ import authReducer from "@/store/slices/authSlice";
 import errorReducer from "@/store/slices/errorSlice";
 import categoriesReducer from "@/store/slices/categoriesSlice";
 import cartReducer from "@/store/slices/cartSlice";
+import checkoutReducer from "@/store/slices/checkoutSlice";
+import ordersReducer from "@/store/slices/ordersSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ export const store = configureStore({
     error: errorReducer,
     categories: categoriesReducer,
     cart: cartReducer,
+    checkout: checkoutReducer,
+    orders: ordersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
