@@ -1,6 +1,6 @@
 "use client";
+
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   Card,
@@ -8,24 +8,24 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter,
 } from "@/components/ui/card";
 import { Product } from "@/config/types/product";
 import ImageComponent from "@/components/ui/image";
+import { generateProductSlug } from "@/lib/utils";
 
 const ProductCard: React.FC<Product> = ({
   id,
   brand,
   name,
   price,
-  category,
+  color,
   image,
 }) => {
   return (
-    <Link href={`/products/${id}`}>
-      <Card className="flex flex-col hover:pointer  justify-between h-full">
-        <CardHeader className="flex p-0 flex-col items-center">
-          <div className="w-full max-w-[350px] h-[450px] flex items-center justify-center bg-gray-200">
+    <Link href={`/products/${generateProductSlug(id, name, brand)}`}>
+      <Card className="flex flex-col hover:pointer justify-between w-full max-w-[200px] sm:max-w-[350px] mx-auto">
+        <CardHeader className="flex p-0 flex-col">
+          <div className="w-full h-[250px] sm:h-[450px] flex items-center justify-center bg-gray-200">
             <ImageComponent
               src={image || "/images/placeholder.svg"}
               alt={`${name} ${brand}`}
@@ -34,17 +34,19 @@ const ProductCard: React.FC<Product> = ({
               className="w-auto h-full object-contain border rounded-sm border-gray-300"
             />
           </div>
-          <CardTitle className="pr-3 text-start text-xl font-semibold mt-3">
+
+          <CardTitle className="text-start pl-3 text-sm sm:text-lg font-semibold mt-3">
             {brand + " " + name}
           </CardTitle>
-          <CardDescription className="text-gray-500">
-            {category.charAt(0).toUpperCase() + category.slice(1)}
+          <CardDescription className="text-start pl-3 text-xs sm:text-sm text-gray-500">
+            {color.charAt(0).toUpperCase() + color.slice(1)}
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="flex-grow mt-1 flex flex-col">
-          <p className="text-gray-800 font-bold">${price.toFixed(2)}</p>
-          <p className="text-gray-600 mt-1 text-sm flex-grow"></p>
+        <CardContent className="flex-grow mt-1 pl-3 flex flex-col text-start">
+          <p className="text-gray-800 font-bold text-sm sm:text-lg">
+            ${price.toFixed(2)}
+          </p>
         </CardContent>
       </Card>
     </Link>

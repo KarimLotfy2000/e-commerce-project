@@ -25,13 +25,16 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
   buttonText,
 }) => {
   return (
-    <Card className="px-6 border border-gray-300 rounded-lg">
+    <Card className="px-4 sm:px-6 border border-gray-300 rounded-lg">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardTitle className="text-lg sm:text-xl">{title}</CardTitle>
+        <CardDescription className="text-sm sm:text-base">
+          {description}
+        </CardDescription>
       </CardHeader>
-      <CardContent className="px-6">
-        <div className="relative w-full h-[550px]">
+
+      <CardContent className="px-4 sm:px-6">
+        <div className="relative w-full h-[350px] sm:h-[500px]">
           <Image
             src={imageUrl}
             alt={title}

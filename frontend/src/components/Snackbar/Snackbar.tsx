@@ -15,6 +15,7 @@ const Snackbar = () => {
     if (message) {
       toast({
         description: message,
+        duration: 2000,
         variant:
           type === "error"
             ? "destructive"
@@ -22,7 +23,6 @@ const Snackbar = () => {
             ? "success"
             : "default",
       });
-
       setTimeout(() => dispatch(clearError()), 2000);
     }
   }, [message, dispatch, toast]);

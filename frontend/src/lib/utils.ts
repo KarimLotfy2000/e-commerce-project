@@ -12,3 +12,11 @@ export function formatDate(date: string | Date) {
     year: "numeric",
   });
 }
+export function generateProductSlug(id: number, name?: string, brand?: string) {
+  const safeBrand = brand
+    ? brand.toLowerCase().replace(/\s+/g, "-")
+    : "unknown";
+  const safeName = name ? name.toLowerCase().replace(/\s+/g, "-") : "product";
+
+  return `${id}-${safeBrand}-${safeName}`;
+}

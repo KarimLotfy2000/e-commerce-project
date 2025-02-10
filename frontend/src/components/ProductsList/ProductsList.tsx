@@ -10,9 +10,9 @@ type ProductsListProps = {
 
 const ProductsList: React.FC<ProductsListProps> = ({ products }) => {
   return (
-    <div className="flex w-full flex-col min-h-vh">
-      <div className="mx-auto flex flex-col justify-between">
-        <div className="grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+    <div className="flex w-full flex-col min-h-vh items-center justify-center">
+      <div className="w-full max-w-7xl px-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-4 mx-auto">
           {products.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}

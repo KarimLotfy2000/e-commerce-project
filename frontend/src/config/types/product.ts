@@ -12,22 +12,11 @@ export interface PaginatedResponse<T> {
   last: boolean;
 }
 
-export interface ProductFilterParams {
-  category?: string;
-  brand?: string;
-  gender?: "MEN" | "WOMEN" | "UNISEX";
-  minPrice?: number;
-  maxPrice?: number;
-  sortBy?: "price" | "name" | "brand";
-  order?: "asc" | "desc";
-  page?: number;
-  size?: number;
-}
 export interface Product {
   id: number;
   name: string;
   brand: string;
-  category: string;
+  color: string;
   image: string | null;
   price: number;
 }

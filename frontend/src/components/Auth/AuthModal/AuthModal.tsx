@@ -20,7 +20,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
   closeModal,
   initialForm = "login",
 }) => {
-  const { isAuthenticated, error } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [isLogin, setIsLogin] = useState(initialForm === "login");
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
 

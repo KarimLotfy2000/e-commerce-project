@@ -3,9 +3,15 @@ import SaleCategoryBanner from "@/components/SaleCategoryBanner/SaleCategoryBann
 import ProductsList from "@/components/ProductsList/ProductsList";
 import Pagination from "@/components/Pagination/Pagination";
 import { Product } from "@/config/types/product";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
 import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
+import FiltersList from "@/components/Filters/FiltersList/FiltersList";
+import { useSyncFilters } from "@/hooks/use-sync-filters";
+import { fetchCategories } from "@/store/slices/categoriesSlice";
+import { resetFilters } from "@/store/slices/filtersSlice";
+import { usePathname, useRouter } from "next/navigation";
+
 export type ProductsPageProps = {
   products: Product[];
   currentPage: number;
@@ -24,6 +30,19 @@ export default function ProductsPage({
   const { categories, loading } = useSelector(
     (state: RootState) => state.categories
   );
+  const router = useRouter();
+  const pathName = usePathname();
+  const dispatch = useDispatch<AppDispatch>();
+  if (!categories || !categories.length) {
+    dispatch(fetchCategories());
+  }
+
+  const handleReset = () => {
+    dispatch(resetFilters());
+    router.push(`${pathName}`);
+  };
+
+  useSyncFilters();
 
   if (loading) {
     return <LoadingSpinner />;
@@ -33,13 +52,26 @@ export default function ProductsPage({
       {categories && (
         <SaleCategoryBanner discount="30" categories={categories} />
       )}
-      <ProductsList products={products} />
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        totalElements={totalElements}
-        pageSize={pageSize}
-      />
+      <FiltersList />
+      {products.length === 0 ? (
+        <p className="text-md font-medium text-gray text-center">
+          No products found. Try adjusting your filters or{" "}
+          <button className="text-black-500 underline" onClick={handleReset}>
+            resetting them
+          </button>
+          .
+        </p>
+      ) : (
+        <>
+          <ProductsList products={products} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalElements={totalElements}
+            pageSize={pageSize}
+          />
+        </>
+      )}
     </div>
   );
 }

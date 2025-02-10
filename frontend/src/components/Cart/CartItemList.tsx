@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 
 const CartItemList = () => {
   const dispatch = useDispatch<AppDispatch>();
+
   const { cartItems, totalPrice, loading } = useSelector(
     (state: RootState) => state.cart
   );
@@ -33,23 +34,27 @@ const CartItemList = () => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 -mx- sm:px-8">
       {cartItems.length > 0 ? (
         <>
-          <h1 className="text-3xl mb-4 font-semibold">
+          <h1 className="text-2xl sm:text-3xl mb-4 font-semibold">
             Your Cart ({cartItems.length} items)
           </h1>
-          {cartItems.map((item) => (
-            <CartItemCard key={item.id} item={item} />
-          ))}
 
-          <div className="mt-8 flex justify-between items-center p-4 border-t">
-            <p className="text-lg font-semibold">
+          <div className="space-y-4">
+            {cartItems.map((item) => (
+              <CartItemCard key={item.id} item={item} />
+            ))}
+          </div>
+
+          <div className="mt-8 flex flex-col sm:flex-row justify-between items-center p-4 border-t">
+            <p className="text-lg sm:text-xl font-semibold">
               Total: {totalPrice.toFixed(2)} €
             </p>
             <Button
               variant="accent"
               size="lg"
+              className="w-full sm:w-auto mt-4 sm:mt-0"
               onClick={() => router.push("/checkout/address")}
             >
               Proceed to Checkout

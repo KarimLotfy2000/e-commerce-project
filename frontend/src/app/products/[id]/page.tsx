@@ -2,13 +2,11 @@ import { ProductDescription } from "@/components/ProductDescription/ProductDescr
 import { SliderWithImagesBar } from "@/components/SliderWithImagesBar/SliderWithImagesBar";
 import React from "react";
 import { ProductAccordion } from "@/components/ProductAccordion/ProductAccordion";
-import { RecommendedItemsSlider } from "@/components/RecommendedItemsSlider/RecommendedItemsSlider";
 import { getProductById } from "@/lib/api/productService";
 
 const ProductPage = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
-
-  const product = await getProductById(parseInt(id));
+  const [productId] = params.id.split("-");
+  const product = await getProductById(parseInt(productId));
 
   return (
     <div className="flex flex-col">
@@ -24,10 +22,7 @@ const ProductPage = async ({ params }: { params: { id: string } }) => {
           />
         </div>
       </div>
-      <div className="p-10 flex flex-col">
-        <h1 className="text-4xl p-10 font-bold">Recommended Items</h1>
-        <RecommendedItemsSlider />
-      </div>
+      <div className="p-10 flex flex-col"></div>
     </div>
   );
 };

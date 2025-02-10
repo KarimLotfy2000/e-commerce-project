@@ -20,7 +20,6 @@ const ConfirmPage: React.FC = () => {
     (state: RootState) => state.cart
   );
   const { order } = useSelector((state: RootState) => state.checkout);
-  console.log("order", order);
   const handlePlaceOrder = async () => {
     if (selectedAddress && paymentMethod) {
       await dispatch(

@@ -1,9 +1,8 @@
+import { ProductFilterParams } from "@/config/types/filter";
 import {
   ApiResponse,
-  Category,
   ProductInfo,
   Product,
-  ProductFilterParams,
   PaginatedResponse,
 } from "@/config/types/product";
 import api from "@/lib/api/apiClient";

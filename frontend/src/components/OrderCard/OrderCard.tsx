@@ -1,6 +1,6 @@
 import { Order } from "@/config/types/order";
 import ImageComponent from "@/components/ui/image";
-import { formatDate } from "@/lib/utils";
+import { formatDate, generateProductSlug } from "@/lib/utils";
 import Link from "next/link";
 
 interface OrderCardProps {
@@ -33,7 +33,11 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
       <div className="mt-4 space-y-3">
         {order.orderItems.map((item) => (
           <Link
-            href={`/products/${item.sizeVariant.product.id}`}
+            href={`/products/${generateProductSlug(
+              item.sizeVariant.product.id,
+              item.sizeVariant.product.name,
+              item.sizeVariant.product.brand
+            )}`}
             key={item.id}
             className="flex items-center gap-4 p-2 border rounded-md"
           >
