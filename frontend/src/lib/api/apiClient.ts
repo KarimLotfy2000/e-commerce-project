@@ -23,16 +23,36 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    if (!error.response) {
+      console.error("Network error or CORS issue:", error);
+      alert(
+        "Unable to connect to the server. Please check your internet connection or try again later."
+      );
+      return Promise.reject(error);
+    }
+
+    const status = error.response.status;
+
+    if (status === 401) {
       if (typeof window !== "undefined") {
         sessionStorage.setItem("openLoginModal", "true");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         localStorage.removeItem("totalItems");
-        localStorage.removeItem("token");
         window.location.href = "/";
       }
+    } else if (status === 403) {
+      console.warn(
+        "403 Forbidden: Backend might be down or access is restricted."
+      );
+      alert(
+        "Access denied. This may be due to a server issue or permission restrictions."
+      );
+    } else if (status >= 500) {
+      console.error("Server error:", error);
+      alert("A server error occurred. Please try again later.");
     }
+
     return Promise.reject(error);
   }
 );
