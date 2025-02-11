@@ -25,7 +25,7 @@ const Snackbar = () => {
       });
       setTimeout(() => dispatch(clearError()), 2000);
     }
-  }, [message, dispatch, toast]);
+  }, [message, dispatch, toast, type]);
 
   return null;
 };

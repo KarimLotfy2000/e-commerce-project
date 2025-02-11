@@ -58,6 +58,7 @@ export const useCheckoutGuard = () => {
     isChecking,
     loading,
     router,
+    orderCompleted,
   ]);
 
   return { isChecking, loading, cartItems };
