@@ -113,7 +113,13 @@ const ConfirmPage: React.FC = () => {
         disabled={!selectedAddress || !paymentMethod}
         className="w-full"
       >
-        {loading ? <LoadingSpinner /> : "Place Order"}
+        {loading ? (
+          <div className="flex items-center gap-x-2 justify-center">
+            <span>Placing Order</span> <LoadingSpinner />
+          </div>
+        ) : (
+          "Place Order"
+        )}
       </Button>
     </div>
   );

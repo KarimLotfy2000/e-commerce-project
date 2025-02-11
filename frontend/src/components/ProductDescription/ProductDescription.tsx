@@ -13,14 +13,14 @@ import {
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import classNames from "classnames";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { addToCart } from "@/store/slices/cartSlice";
 import { ProductInfo } from "@/config/types/product";
-import { AppDispatch } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
 import useAuth from "@/hooks/use-auth";
 import { setError } from "@/store/slices/errorSlice";
-import AuthModal from "../Auth/AuthModal/AuthModal";
+import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
 
 export type ProductDescriptionProps = {
   product: ProductInfo;
@@ -40,7 +40,7 @@ export const ProductDescription: React.FC<ProductDescriptionProps> = ({
   const [selectedSizeVariantId, setSelectedSizeVariantId] = useState<
     number | null
   >(null);
-
+  const { loading } = useSelector((state: RootState) => state.cart);
   const { isAuthenticated, showLoginModal } = useAuth();
 
   const shouldApplyDiscount =
@@ -180,7 +180,13 @@ export const ProductDescription: React.FC<ProductDescriptionProps> = ({
           className="w-full mt-4 text-xl font-semibold py-2 rounded-md"
           onClick={handleAddToCart}
         >
-          Add to cart
+          {loading ? (
+            <div className="flex items-center gap-x-2 justify-center">
+              <span>Adding to cart</span> <LoadingSpinner />
+            </div>
+          ) : (
+            "Add to Cart"
+          )}
         </Button>
         {/* <Button
           variant="primary"

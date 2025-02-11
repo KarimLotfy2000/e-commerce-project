@@ -24,12 +24,14 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      sessionStorage.setItem("openLoginModal", "true");
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      localStorage.removeItem("totalItems");
-      localStorage.removeItem("token");
-      window.location.href = "/";
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("openLoginModal", "true");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("totalItems");
+        localStorage.removeItem("token");
+        window.location.href = "/";
+      }
     }
     return Promise.reject(error);
   }

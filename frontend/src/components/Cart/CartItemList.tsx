@@ -49,7 +49,7 @@ const CartItemList = () => {
 
           <div className="mt-8 flex flex-col sm:flex-row justify-between items-center p-4 border-t">
             <p className="text-lg sm:text-xl font-semibold">
-              Total: {totalPrice.toFixed(2)} €
+              Total: {loading ? <LoadingSpinner /> : totalPrice.toFixed(2)} €
             </p>
             <Button
               variant="accent"
