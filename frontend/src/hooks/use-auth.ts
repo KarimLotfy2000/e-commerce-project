@@ -24,8 +24,9 @@ const useAuth = () => {
     dispatch(loginUser({ email, password }));
   };
 
-  const register = (name: string, email: string, password: string) => {
-    dispatch(registerUser({ name, email, password }));
+  const register = async (name: string, email: string, password: string) => {
+    const response = await dispatch(registerUser({ name, email, password }));
+    return response.meta.requestStatus === "fulfilled";
   };
 
   const logout = () => {
