@@ -161,7 +161,7 @@ const checkoutSlice = createSlice({
         state.order.status = action.payload.status;
         state.order.totalPrice = action.payload.totalPrice;
         state.order.orderDate = action.payload.orderDate;
-        localStorage.setItem("orderCompleted", "true"); // ✅ Save order completion flag
+        localStorage.setItem("orderCompleted", "true");
       })
       .addCase(makeOrder.rejected, (state, action) => {
         state.loading = false;

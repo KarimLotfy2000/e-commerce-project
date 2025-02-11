@@ -6,6 +6,9 @@ import React, { ReactNode } from "react";
 import Providers from "@/components/Layout/Providers/Providers";
 
 export const metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://temp-url.vercel.app"
+  ),
   title: {
     default: "FashionFusion - Trendy Fashion for Everyone",
     template: "%s | FashionFusion",
@@ -15,7 +18,7 @@ export const metadata = {
   openGraph: {
     title: "FashionFusion - Trendy Fashion for Everyone",
     description: "Shop the latest trends in clothing, accessories, and more.",
-    // url: "https://fashionfusion.com",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://temp-url.vercel.app",
     siteName: "FashionFusion",
     type: "website",
     icons: {
@@ -23,6 +26,7 @@ export const metadata = {
     },
   },
 };
+
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="h-full">

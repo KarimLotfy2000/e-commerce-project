@@ -45,7 +45,7 @@ const useAuth = () => {
       const shouldOpenLogin = sessionStorage.getItem("openLoginModal");
       if (shouldOpenLogin) {
         dispatch(setLoginModalOpen(true));
-        sessionStorage.removeItem("openLoginModal"); // Remove after use
+        sessionStorage.removeItem("openLoginModal");
       }
     }
   }, [dispatch]);

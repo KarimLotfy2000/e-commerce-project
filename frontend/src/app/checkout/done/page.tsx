@@ -79,7 +79,7 @@ const CheckoutDonePage = () => {
           Continue Shopping
         </Button>
         <Button
-          onClick={() => router.push("/my/orders")}
+          onClick={() => router.push("/my-orders")}
           variant="secondary"
           size="lg"
         >

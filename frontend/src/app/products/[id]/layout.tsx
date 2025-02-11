@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import React from "react";
+
 export async function generateMetadata({
   params,
 }: {
@@ -13,14 +14,18 @@ export async function generateMetadata({
     .join(" ");
   const brand = slugParts[0].toUpperCase();
 
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://temp-url.vercel.app";
+
   return {
     title: `${brand} ${name} - Buy Now | FashionFusion`,
     openGraph: {
       title: `${brand} ${name} - Buy Now | FashionFusion`,
-      //  url: `https://fashionfusion.com/products/${params.id}`,
+      url: `${siteUrl}/products/${params.id}`,
     },
   };
 }
+
 const ProductLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
