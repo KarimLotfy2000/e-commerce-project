@@ -62,7 +62,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm }) => {
       </Button>
 
       <p className="text-sm text-center">
-        Don't have an account yet?
+        Don&apos;t have an account yet?{" "}
         <button onClick={toggleForm} className="text-blue-500 underline">
           Register
         </button>
