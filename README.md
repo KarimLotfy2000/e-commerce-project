@@ -8,7 +8,7 @@ FashionFusion is a modern full-stack e-commerce platform built with **Next.js (A
 
 ## 🚀 Features
 - 🔐 **User Authentication** (JWT-based login, registration)
-- 🏷️ **Product Browsing & Filtering** (Filter by gender, category, brand, price)
+- 🏷️ **Product Browsing & Filtering** (Filter by gender, category, brand, color, price)
 - 🛒 **Shopping Cart** (Persistent cart state, add/remove items)
 - 📦 **Order Management** (Order history, checkout)
 - 🎨 **Modern UI** (TailwindCSS & ShadCN for a sleek design)
