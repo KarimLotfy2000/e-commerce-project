@@ -51,7 +51,7 @@ const SaleCategoryBanner: React.FC<SaleCategoryBannerProps> = ({
   return (
     <div className="flex text-white font-bold flex-col mb-10">
       <div className="text-gray-800 text-2xl md:text-4xl md:mb-6 mx-auto pb-6">
-        {gender && gender[0].toUpperCase() + gender.slice(1)}'s{" "}
+        {gender && `${gender[0].toUpperCase() + gender.slice(1)}&apos;s `}
         {titleLabel[0].toUpperCase() + titleLabel.slice(1)}
       </div>
       <div className="bg-zinc-700 sm:p-5 md:p-7 p-3">
