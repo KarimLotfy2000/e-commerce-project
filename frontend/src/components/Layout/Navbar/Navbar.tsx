@@ -20,6 +20,7 @@ const OPTIONS = ["MEN", "WOMEN"];
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const { user, isAuthenticated, logout, hideLoginModal, isLoginModalOpen } =
     useAuth();
   const initials = user?.name
@@ -46,10 +47,10 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white mb-16 p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="sm:container mx-auto flex justify-between items-center">
         <div className="md:hidden">
-          <Sheet>
-            <SheetTrigger asChild>
+          <Sheet open={isSheetOpen}>
+            <SheetTrigger asChild onClick={() => setIsSheetOpen(!isSheetOpen)}>
               <button className="text-gray-500 hover:text-gray-900">
                 <FaBars size={24} />
               </button>
@@ -61,6 +62,10 @@ const Navbar = () => {
                     key={option}
                     href={`/${option.toLowerCase()}`}
                     className="text-gray-700 py-2 hover:text-gray-900"
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      setIsSheetOpen(false);
+                    }}
                   >
                     {option}
                   </Link>

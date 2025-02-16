@@ -33,7 +33,7 @@ const Banner: React.FC<BannerProps> = ({
         <div></div>
         <div className="flex justify-between items-end">
           <h2 className="text-white text-lg sm:text-3xl font-bold">{text}</h2>
-          <Button variant="primary">
+          <Button className="px-2 sm:px-4 text-xs sm:text-sm" variant="primary">
             <Link href={buttonLink}>{buttonText}</Link>
           </Button>
         </div>

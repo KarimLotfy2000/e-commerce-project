@@ -25,31 +25,32 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
   buttonText,
 }) => {
   return (
-    <Card className="px-4 sm:px-6 border border-gray-300 rounded-lg">
-      <CardHeader>
-        <CardTitle className="text-lg sm:text-xl">{title}</CardTitle>
-        <CardDescription className="text-sm sm:text-base">
-          {description}
-        </CardDescription>
-      </CardHeader>
+    <Link href={link}>
+      <Card className="px-4 sm:px-6 border border-gray-300 rounded-lg">
+        <CardHeader>
+          <CardTitle className="text-lg sm:text-xl">{title}</CardTitle>
+          <CardDescription className="text-sm sm:text-base">
+            {description}
+          </CardDescription>
+        </CardHeader>
 
-      <CardContent className="px-4 sm:px-6">
-        <div className="relative w-full h-[350px] sm:h-[500px]">
-          <Image
-            src={imageUrl}
-            alt={title}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg"
-          />
-        </div>
-        <Link href={link}>
+        <CardContent className="px-4 sm:px-6">
+          <div className="relative w-full h-[350px] sm:h-[500px]">
+            <Image
+              src={imageUrl}
+              alt={title}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-lg"
+            />
+          </div>
+
           <Button variant="link" className="mt-4">
             {buttonText}
           </Button>
-        </Link>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 

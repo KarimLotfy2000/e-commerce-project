@@ -52,7 +52,7 @@ const FiltersList = () => {
     <div className="flex flex-col items-center w-full my-8 mx-auto p-4">
       {isMobile ? <MobileFilters /> : <DesktopFilters />}
 
-      <div className="mt-4 w-full max-w-xl border rounded-sm shadow-lg p-6 pb-12">
+      <div className="mt-4 w-full max-w-xl p-6 pb-12">
         <label className="block text-sm mb-4 text-gray-600 text-center">
           Price Range (€{selectedFilters.minPrice ?? minPrice} - €
           {selectedFilters.maxPrice ?? maxPrice})

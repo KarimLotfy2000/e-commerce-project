@@ -24,7 +24,7 @@ export async function generateMetadata({
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <div className="pt-16">{children}</div>
+      <div className="pt-6">{children}</div>
     </>
   );
 };

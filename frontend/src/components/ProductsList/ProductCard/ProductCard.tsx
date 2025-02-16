@@ -23,9 +23,12 @@ const ProductCard: React.FC<Product> = ({
 }) => {
   return (
     <Link href={`/products/${generateProductSlug(id, name, brand)}`}>
-      <Card className="flex flex-col hover:pointer justify-between w-full max-w-[200px] sm:max-w-[350px] mx-auto">
+      <Card
+        className="relative flex flex-col justify-between w-full max-w-[200px] sm:max-w-[350px] mx-auto 
+            transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg"
+      >
         <CardHeader className="flex p-0 flex-col">
-          <div className="w-full h-[250px] sm:h-[450px] flex items-center justify-center bg-gray-200">
+          <div className="relative w-full h-[250px] sm:h-[450px] flex items-center justify-center bg-gray-200">
             <ImageComponent
               src={image || "/images/placeholder.svg"}
               alt={`${name} ${brand}`}
@@ -33,6 +36,7 @@ const ProductCard: React.FC<Product> = ({
               height={300}
               className="w-auto h-full object-contain border rounded-sm border-gray-300"
             />
+            <div className="absolute inset-0 bg-black bg-opacity-0 transition-all duration-300 ease-in-out hover:bg-opacity-30"></div>
           </div>
 
           <CardTitle className="text-start pl-3 text-sm sm:text-lg font-semibold mt-3">
