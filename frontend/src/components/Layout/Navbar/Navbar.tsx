@@ -23,6 +23,7 @@ const Navbar = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const { user, isAuthenticated, logout, hideLoginModal, isLoginModalOpen } =
     useAuth();
+
   const initials = user?.name
     ? user.name
         .split(" ")
@@ -49,12 +50,16 @@ const Navbar = () => {
     <nav className="bg-white mb-16 p-4 shadow-md">
       <div className="sm:container mx-auto flex justify-between items-center">
         <div className="md:hidden">
-          <Sheet open={isSheetOpen}>
-            <SheetTrigger asChild onClick={() => setIsSheetOpen(!isSheetOpen)}>
-              <button className="text-gray-500 hover:text-gray-900">
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+              <button
+                className="text-gray-500 hover:text-gray-900"
+                onClick={() => setIsSheetOpen(!isSheetOpen)}
+              >
                 <FaBars size={24} />
               </button>
             </SheetTrigger>
+
             <SheetContent side="left" className="w-64 bg-white shadow-lg">
               <div className="flex flex-col p-4">
                 {OPTIONS.map((option) => (
@@ -62,10 +67,7 @@ const Navbar = () => {
                     key={option}
                     href={`/${option.toLowerCase()}`}
                     className="text-gray-700 py-2 hover:text-gray-900"
-                    onClick={() => {
-                      setIsDropdownOpen(false);
-                      setIsSheetOpen(false);
-                    }}
+                    onClick={() => setIsSheetOpen(false)}
                   >
                     {option}
                   </Link>
